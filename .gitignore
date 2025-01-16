@@ -10,7 +10,10 @@
 
 # production
 /build
-
+*.jpg
+*.png
+*.zip
+*.tar.gz
 # misc
 .DS_Store
 .env.local

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { sliderData } from "../assets/data/dummyData";
 
 export const sliderSlice = createSlice({
   name: "slider",
   initialState: {
     value: 0,
-    length:4 ,
+    length: sliderData.length,
   },
   reducers: {
     nextSlide(state, action) {

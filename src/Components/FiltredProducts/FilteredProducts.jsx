@@ -2,18 +2,25 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
-
-
+import { Button } from "@material-tailwind/react";
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+} from "@material-tailwind/react";
+import Error from "../Error/Error";
 import {
   filterProducts,
   filterGender,
   sortByPrice,
   filterByColor,
   filterBySize,
-} from "../slices/productsSlice";
+} from "../../slices/productsSlice";
 
 const FilteredProducts = () => {
   const products = useSelector((state) => state.products.filteredProducts);
+  const error = useSelector((state) => state.products.error);
   const { type } = useParams();
   const genderButtons = ["male", "female"];
   const colorButtons = [
@@ -41,7 +48,7 @@ const FilteredProducts = () => {
               {genderButtons.map((item, index) => {
                 return (
                   <div key={index}>
-                    <button
+                    <Button
                       color="gray"
                       size="lg"
                       variant="outlined"
@@ -50,11 +57,11 @@ const FilteredProducts = () => {
                       onClick={() => dispatch(filterGender(item))}
                     >
                       {item}
-                    </button>
+                    </Button>
                   </div>
                 );
               })}
-              <button
+              <Button
                 color="gray"
                 size="lg"
                 variant="outlined"
@@ -63,10 +70,10 @@ const FilteredProducts = () => {
                 onClick={() => dispatch(sortByPrice())}
               >
                 High Price
-              </button>
-              <menu>
-                <menuHandler>
-                  <button
+              </Button>
+              <Menu>
+                <MenuHandler>
+                  <Button
                     color="gray"
                     size="lg"
                     variant="outlined"
@@ -74,25 +81,25 @@ const FilteredProducts = () => {
                     className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
                   >
                     Select a color
-                  </button>
-                </menuHandler>
-                <menuList>
+                  </Button>
+                </MenuHandler>
+                <MenuList>
                   {colorButtons.map((item, index) => {
                     return (
-                      <menuItem
+                      <MenuItem
                         style={{ color: item }}
                         key={index}
                         onClick={() => dispatch(filterByColor(item))}
                       >
                         {item}
-                      </menuItem>
+                      </MenuItem>
                     );
                   })}
-                </menuList>
-              </menu>
-              <menu>
-                <menuHandler>
-                  <button
+                </MenuList>
+              </Menu>
+              <Menu>
+                <MenuHandler>
+                  <Button
                     disabled={type === "Bags" || type === "Shoes"}
                     color="gray"
                     size="lg"
@@ -101,24 +108,24 @@ const FilteredProducts = () => {
                     className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
                   >
                     Select a size
-                  </button>
-                </menuHandler>
-                <menuList>
+                  </Button>
+                </MenuHandler>
+                <MenuList>
                   {sizeButtons.map((item, index) => {
                     return (
-                      <menuItem
+                      <MenuItem
                         key={index}
                         onClick={() => dispatch(filterBySize(item))}
                       >
                         {item}
-                      </menuItem>
+                      </MenuItem>
                     );
                   })}
-                </menuList>
-              </menu>
+                </MenuList>
+              </Menu>
             </div>
             <div className="pr-14">
-              <button
+              <Button
                 color="gray"
                 size="lg"
                 variant="outlined"
@@ -127,11 +134,13 @@ const FilteredProducts = () => {
                 onClick={() => dispatch(filterProducts(type))}
               >
                 Clear Filter
-              </button>
+              </Button>
             </div>
           </div>
         </div>
-        (
+        {error ? (
+          <Error></Error>
+        ) : (
           <div className="grid grid-cols-4 justify-items-center py-8 gap-12 ">
             {products
               .filter((product) => product.type === type)
@@ -150,7 +159,7 @@ const FilteredProducts = () => {
                 );
               })}
           </div>
-        )
+        )}
       </div>
     </div>
   );
